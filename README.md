@@ -32,36 +32,6 @@ We also curate the **`JavisInst-Omni`** dataset to facilitate instruction-tuning
 
 ## Code
 
-
-### Installation
-
-Install the necessary packages:
-
-```bash
-conda create -n javisgpt python=3.10 -y
-conda activate javisgpt
-pip install --upgrade pip  # Enable PEP 660 support.
-pip install flash-attn==2.7.4.post1 --no-build-isolation
-pip install -v -e ".[train]"
-cp assets/src/dynamic_modules_utils.py /path/to/python3.10/site-packages/diffusers/utils/
-conda install "ffmpeg<7" -c conda-forge -y  # install ffpmeg
-```
-
-Install [JavisDiT](https://github.com/JavisVerse/JavisDiT.git) dependencies:
-
-```bash
-cd ..
-git clone https://github.com/JavisVerse/JavisDiT.git
-cd JavisDiT
-pip install -v -e . --no-deps
-cd ../JavisGPT
-
-# # make soft links if necessary
-# ln -s ../JavisDiT/javisdit javisdit
-```
-
-### Inference
-
 We assume the data structure as:
 
 ```bash
@@ -93,6 +63,36 @@ We assume the data structure as:
 |   |   |   |-- JavisUnd-Eval
 |   |   |   └-- JavisBench
 ```
+
+
+### Installation
+
+Install the necessary packages:
+
+```bash
+conda create -n javisgpt python=3.10 -y
+conda activate javisgpt
+pip install --upgrade pip  # Enable PEP 660 support.
+pip install flash-attn==2.7.4.post1 --no-build-isolation
+pip install -v -e ".[train]"
+cp assets/src/dynamic_modules_utils.py /path/to/python3.10/site-packages/diffusers/utils/
+conda install "ffmpeg<7" -c conda-forge -y  # install ffpmeg
+```
+
+Install [JavisDiT](https://github.com/JavisVerse/JavisDiT.git) dependencies:
+
+```bash
+cd ..
+git clone https://github.com/JavisVerse/JavisDiT.git
+cd JavisDiT
+pip install -v -e . --no-deps
+cd ../JavisGPT
+
+# # make soft links if necessary
+# ln -s ../JavisDiT/javisdit javisdit
+```
+
+### Inference
 
 #### 1. Prepare Pretrained Weights
 
