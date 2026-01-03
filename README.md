@@ -99,23 +99,23 @@ cd ../JavisGPT
 First, download [BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2.pt](https://github.com/microsoft/unilm/tree/master/beats) from [here](https://1drv.ms/u/s!AqeByhGUtINrgcpj8ujXH1YUtxooEg?e=E9Ncea) and [Qwen2.5-VL-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct), and put (or link) them into `../../weights/pretrained/mllm`.
 
 ```bash
-huggingface-cli download Qwen/Qwen2.5-VL-7B-Instruct --local-dir ../../weights/pretrained/mllm/Qwen2.5-VL-7B-Instruct
+hf download Qwen/Qwen2.5-VL-7B-Instruct --local-dir ../../weights/pretrained/mllm/Qwen2.5-VL-7B-Instruct
 ```
 
 Then, download our [JavisGPT-v0.1-7B-Instruct](https://huggingface.co/JavisVerse/JavisGPT-v0.1-7B-Instruct) and put it into `../../weights/JavisVerse`.
 
 ```bash
-huggingface-cli download JavisVerse/JavisGPT-v0.1-7B-Instruct --local-dir ../../weights/JavisVerse/JavisGPT-v0.1-7B-Instruct
+hf download JavisVerse/JavisGPT-v0.1-7B-Instruct --local-dir ../../weights/JavisVerse/JavisGPT-v0.1-7B-Instruct
 ```
 
 Finally, download necessary checkpoints of the downstream JAVG model ([JavisDiT](https://github.com/JavisVerse/JavisDiT.git)) and put them into `../../weights/pretrained/dit` or `../../weights/JavisVerse`, according to path definition in `./interface/config/*.py` coordinately.
 
 ```bash
-huggingface-cli download hpcai-tech/OpenSora-VAE-v1.2 --local-dir ../../weights/pretrained/dit/OpenSora-VAE-v1.2
-huggingface-cli download cvssp/audioldm2 --local-dir ../../weights/pretrained/dit/audioldm2
-huggingface-cli download DeepFloyd/t5-v1_1-xxl --local-dir ../../weights/pretrained/dit/t5-v1_1-xxl
-huggingface-cli download JavisVerse/JavisDiT-v0.1-prior --local-dir ../../weights/JavisVerse/JavisDiT-v0.1-prior
-huggingface-cli download JavisVerse/JavisDiT-v0.1-jav-240p4s --local-dir ../../weights/JavisVerse/JavisDiT-v0.1-jav-240p4s
+hf download hpcai-tech/OpenSora-VAE-v1.2 --local-dir ../../weights/pretrained/dit/OpenSora-VAE-v1.2
+hf download cvssp/audioldm2 --local-dir ../../weights/pretrained/dit/audioldm2
+hf download DeepFloyd/t5-v1_1-xxl --local-dir ../../weights/pretrained/dit/t5-v1_1-xxl
+hf download JavisVerse/JavisDiT-v0.1-prior --local-dir ../../weights/JavisVerse/JavisDiT-v0.1-prior
+hf download JavisVerse/JavisDiT-v0.1-jav-240p4s --local-dir ../../weights/JavisVerse/JavisDiT-v0.1-jav-240p4s
 ```
 
 #### 2. Run Target Inference
@@ -178,9 +178,9 @@ The generated sample will be saved at `${SAVE_PREFIX}.mp4`, e.g., `./results/avg
 Download the corresponding [MM-PreTrain](https://huggingface.co/datasets/JavisVerse/MM-PreTrain), [AV-FineTune](https://huggingface.co/datasets/JavisVerse/AV-FineTune), and [JavisInst-Omni](https://huggingface.co/datasets/JavisVerse/JavisInst-Omni) from [HuggingFace](https://huggingface.co/collections/JavisVerse/javisgpt), and put (or link) them into `../../datasets/JavisGPT/train/` coordinately.
 
 ```bash
-huggingface-cli download --repo-type dataset JavisVerse/MM-PreTrain --local-dir ../../datasets/JavisGPT/train/MM-PreTrain
-huggingface-cli download --repo-type dataset JavisVerse/AV-FineTune --local-dir ../../datasets/JavisGPT/train/AV-FineTune
-huggingface-cli download --repo-type dataset JavisVerse/JavisInst-Omni --local-dir ../../datasets/JavisGPT/train/JavisInst-Omni
+hf download --repo-type dataset JavisVerse/MM-PreTrain --local-dir ../../datasets/JavisGPT/train/MM-PreTrain
+hf download --repo-type dataset JavisVerse/AV-FineTune --local-dir ../../datasets/JavisGPT/train/AV-FineTune
+hf download --repo-type dataset JavisVerse/JavisInst-Omni --local-dir ../../datasets/JavisGPT/train/JavisInst-Omni
 ```
 
 Then, go to the downloaded datasets and run the `unzip.py` to extract source audio/video data:
@@ -239,7 +239,7 @@ Only the checkpoints trained in this stage are utilized to build the final Javis
 Download and extract the preprocessed [JavisUnd-Eval](https://huggingface.co/datasets/JavisVerse/JavisUnd-Eval) dataset (including 8 widely-used subsets) to `../../datasets/JavisGPT/eval/`:
 
 ```bash
-huggingface-cli download --repo-type dataset JavisVerse/JavisUnd-Eval --local-dir ../../datasets/JavisGPT/eval/JavisUnd-Eval
+hf download --repo-type dataset JavisVerse/JavisUnd-Eval --local-dir ../../datasets/JavisGPT/eval/JavisUnd-Eval
 
 cd ../../datasets/JavisGPT/eval/JavisUnd-Eval
 python unzip.py --purge
@@ -251,7 +251,7 @@ cd -
 Download the [JavisBench](https://huggingface.co/datasets/JavisVerse/JavisBench) dataset to `../../datasets/JavisGPT/eval/`:
 
 ```bash
-huggingface-cli download --repo-type dataset JavisVerse/JavisUnd-Eval --local-dir ../../datasets/JavisGPT/eval/JavisBench
+hf download --repo-type dataset JavisVerse/JavisBench --local-dir ../../datasets/JavisGPT/eval/JavisBench
 ```
 
 #### 2. Run Target Inference

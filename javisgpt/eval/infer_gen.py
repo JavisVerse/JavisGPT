@@ -54,18 +54,8 @@ def run_inference(args):
             # output_texts = tokenizer.batch_decode(generated_ids[:, input_ids.shape[1]:])
 
             hidden_states = outputs.hidden_states[0][-1]
-            # avgen_mask = input_ids_bak == GEN_AUDIO_VIDEO_TOKEN_INDEX
-            # avgen_embeds = hidden_states[avgen_mask].view(args.batch_size, AV_GEN_TOKEN_NUM, -1)
             avgen_embeds = model.parse_avgen_embed(hidden_states, input_ids_bak, GEN_AUDIO_VIDEO_TOKEN_INDEX)
             assert avgen_embeds.shape[0] == args.batch_size, f"{avgen_embeds.shape} vs {args.batch_size}"
-            
-            # avgen_caption_embeds, avgen_prior_embeds = model.generate_audio_video(avgen_embeds, embed_only=True)
-            # save_data = {
-            #     'avgen_caption_embeds': avgen_caption_embeds.detach().cpu(),
-            #     'avgen_prior_embeds': avgen_prior_embeds.detach().cpu(),
-            #     'raw_caption': raw_caption,
-            # }
-            # torch.save(save_data, f"{output_dir}/{question_ids[0]}.bin")
 
             audios, videos = model.generate_audio_video_direct(avgen_embeds)
             for di, (audio, video) in enumerate(zip(audios, videos)):
@@ -85,13 +75,13 @@ if __name__ == "__main__":
     # Model arguments
     parser.add_argument('--model_name_or_path', help='', required=True)
     parser.add_argument('--beats-path', help='', required=True)
-    parser.add_argument('--io_embedings_path', default=None)
     parser.add_argument('--audio_projector_path', help='', required=False)
     parser.add_argument("--avsync_mode", type=str, default="merge")
     parser.add_argument("--avsync_projector_path", type=str)
     parser.add_argument("--avgen_cfg_path", type=str)
     parser.add_argument("--avgen_projector_path", type=str)
     parser.add_argument('--all_projector_path', type=str, default=None)
+    parser.add_argument('--lora_weight_path', type=str, default='')
     parser.add_argument("--tokenizer_path", type=str, default=None, help="deprecated")
     parser.add_argument("--cache_dir", type=str, default=None)
     parser.add_argument("--attn_implementation", type=str, default="flash_attention_2")

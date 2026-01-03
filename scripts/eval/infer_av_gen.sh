@@ -25,12 +25,14 @@ elif [ "$JAV_VERSION" = "v1.0" ]; then
 else
     echo "Unknown JAV_VERSION: ${JAV_VERSION}"
 fi
+AVGEN_CFG_PATH="${PROJ_ROOT}/interface/config/javisdit_${JAV_VERSION}.py"
 
 
 CUDA_VISIBLE_DEVICES=${GPU} python javisgpt/eval/infer_gen.py \
     --model_name_or_path ${CKPT_PATH} \
     --beats-path ${BEATS_PATH} \
     --all_projector_path ${ALL_PROJ_PATH} \
+    --avgen_cfg_path ${AVGEN_CFG_PATH} \
     --lora_weight_path ${MODEL_PATH} \
     --dataset JavisBench \
     --question-file ${EVAL_DATA_PATH} \
