@@ -19,6 +19,9 @@ eval_data_cfg = {
 def calc_mc_accuracy(predicts: List[str], answers: List[str], **kwargs):
     acc_list = []
     for pred, label in zip(predicts, answers):
+        if len(pred.strip()) == 0:
+            acc_list.append(False)
+            continue
         pred_option = pred.strip()[0]
         label_option = label.strip()[0]
         acc_list.append(pred_option == label_option)

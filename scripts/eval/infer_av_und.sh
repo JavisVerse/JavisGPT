@@ -6,7 +6,7 @@ PROJ_ROOT=${PROJ_ROOT:-"${USER_ROOT}/projects/JavisGPT"}
 DATA_ROOT=${DATA_ROOT:-"${USER_ROOT}/datasets/JavisGPT"}
 WEIGHT_ROOT=${WEIGHT_ROOT:-"${USER_ROOT}/weights"}
 EVAL_DATA_ROOT="${DATA_ROOT}/eval/JavisUnd-Eval"
-OUTPUT_DIR=${OUTPUT_DIR:-"results/av_und"}
+OUTPUT_DIR=${OUTPUT_DIR:-"results/javisgpt_v10/av_und"}
 
 NUM_FRAMES=16
 FRAME_WIDTH=588  # 448(4:3) or 588(16:9)

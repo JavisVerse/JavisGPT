@@ -10,7 +10,7 @@ WEIGHT_ROOT=${WEIGHT_ROOT:-"${USER_ROOT}/weights"}
 GPUS=${GPUS:-"0,1,2,3,4,5,6,7"}
 
 
-JAV_VERSION=${JAV_VERSION:-"v0.1"}  # v0.1 or v1.0
+JAV_VERSION=${JAV_VERSION:-"v1.0"}  # v0.1 or v1.0
 if [ "$JAV_VERSION" = "v0.1" ]; then
     export AV_GEN_TOKEN_NUM=377 # JavisDiT
 elif [ "$JAV_VERSION" = "v1.0" ]; then

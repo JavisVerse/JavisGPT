@@ -22,12 +22,10 @@ We also curate the **`JavisInst-Omni`** dataset to facilitate instruction-tuning
 
 ## 📰 News
 
+- **[2026.2.26]** 🔥🔥 We release the upgraded [JavisGPT-v1.0-7B-Instruct](https://huggingface.co/JavisVerse/JavisGPT-v1.0-7B-Instruct) checkpoint at huggingface, which is empowered by [JavisDiT-v1.0-jav](https://huggingface.co/JavisVerse/JavisDiT-v1.0-jav) to achieve better audio-video generation.
 - **[2026.1.1]** 🚀 We release the full training and evaluation scripts to support future research in the community. Have fun with them!
 - **[2025.12.30]** 🚀 We release the training dataset of [JavisInst-Omni](https://huggingface.co/datasets/JavisVerse/JavisInst-Omni) to support multimodal instruction tuning on sounding video comprehension and generation tasks, as well as [MM-PreTrain](https://huggingface.co/datasets/JavisVerse/MM-PreTrain) and [AV-FineTune](https://huggingface.co/datasets/JavisVerse/AV-FineTune) datasets to enable preliminary multimodal alignment for LLMs. The [JavisUnd-Eval](https://huggingface.co/datasets/JavisVerse/JavisUnd-Eval) dataset is also released to set a standard for audio-video understanding evaluation for MLLMs.
 - **[2025.12.26]** 🔥 We release the code of [JavisGPT](https://arxiv.org/abs/2512.22905), with the preview [JavisGPT-v0.1-7B-Instruct](https://huggingface.co/JavisVerse/JavisGPT-v0.1-7B-Instruct) checkpoint at huggingface. Feel free to play with it!
-
-### 👉 TODO 
-- [ ] Derive a more powerful JavisGPT model.
 
 
 ## Code
@@ -45,6 +43,7 @@ We assume the data structure as:
 |   |   |   |-- OpenSora-VAE-v1.2
 |   |   |   |-- audioldm2
 |   |   |   |-- t5-v1_1-xxl
+|   |   |   |-- Wan2.1-T2V-1.3B
 |   |   |   |-- imagebind_huge.pth
 |   |   |-- mllm  # pretrained weights for JavisGPT
 |   |   |   |-- BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2.pt
@@ -52,7 +51,9 @@ We assume the data structure as:
 |   |-- JavisVerse
 |   |   |-- JavisDiT-v0.1-prior
 |   |   |-- JavisDiT-v0.1-jav-240p4s
-|   |   └-- JavisGPT-v0.1-7B-Instruct
+|   |   |-- JavisGPT-v0.1-7B-Instruct
+|   |   |-- JavisDiT-v1.0-jav
+|   |   └-- JavisGPT-v1.0-7B-Instruct
 |-- datasets
 |   |-- JavisGPT
 |   |   |-- train
@@ -102,20 +103,30 @@ First, download [BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2.pt](https://github
 hf download Qwen/Qwen2.5-VL-7B-Instruct --local-dir ../../weights/pretrained/mllm/Qwen2.5-VL-7B-Instruct
 ```
 
-Then, download our [JavisGPT-v0.1-7B-Instruct](https://huggingface.co/JavisVerse/JavisGPT-v0.1-7B-Instruct) and put it into `../../weights/JavisVerse`.
+Then, download our [JavisGPT-v0.1-7B-Instruct](https://huggingface.co/JavisVerse/JavisGPT-v0.1-7B-Instruct) and [JavisGPT-v1.0-7B-Instruct](https://huggingface.co/JavisVerse/JavisGPT-v1.0-7B-Instruct) and put them into `../../weights/JavisVerse`, e.g.,
 
 ```bash
+# (Optional) for JavisGPT-v0.1-7B-Instruct
 hf download JavisVerse/JavisGPT-v0.1-7B-Instruct --local-dir ../../weights/JavisVerse/JavisGPT-v0.1-7B-Instruct
+
+# for JavisGPT-v1.0-7B-Instruct
+hf download JavisVerse/JavisGPT-v1.0-7B-Instruct --local-dir ../../weights/JavisVerse/JavisGPT-v1.0-7B-Instruct
 ```
 
 Finally, download necessary checkpoints of the downstream JAVG model ([JavisDiT](https://github.com/JavisVerse/JavisDiT.git)) and put them into `../../weights/pretrained/dit` or `../../weights/JavisVerse`, according to path definition in `./interface/config/*.py` coordinately.
 
 ```bash
-hf download hpcai-tech/OpenSora-VAE-v1.2 --local-dir ../../weights/pretrained/dit/OpenSora-VAE-v1.2
+# (Optional) for JavisGPT-v0.1-7B-Instruct
+# hf download hpcai-tech/OpenSora-VAE-v1.2 --local-dir ../../weights/pretrained/dit/OpenSora-VAE-v1.2
+# hf download cvssp/audioldm2 --local-dir ../../weights/pretrained/dit/audioldm2
+# hf download DeepFloyd/t5-v1_1-xxl --local-dir ../../weights/pretrained/dit/t5-v1_1-xxl
+# hf download JavisVerse/JavisDiT-v0.1-prior --local-dir ../../weights/JavisVerse/JavisDiT-v0.1-prior
+# hf download JavisVerse/JavisDiT-v0.1-jav-240p4s --local-dir ../../weights/JavisVerse/JavisDiT-v0.1-jav-240p4s
+
+# for JavisGPT-v1.0-7B-Instruct
+hf download Wan-AI/Wan2.1-T2V-1.3B --local-dir ../../weights/pretrained/dit/Wan2.1-T2V-1.3B
 hf download cvssp/audioldm2 --local-dir ../../weights/pretrained/dit/audioldm2
-hf download DeepFloyd/t5-v1_1-xxl --local-dir ../../weights/pretrained/dit/t5-v1_1-xxl
-hf download JavisVerse/JavisDiT-v0.1-prior --local-dir ../../weights/JavisVerse/JavisDiT-v0.1-prior
-hf download JavisVerse/JavisDiT-v0.1-jav-240p4s --local-dir ../../weights/JavisVerse/JavisDiT-v0.1-jav-240p4s
+hf download JavisVerse/JavisDiT-v1.0-jav --local-dir ../../weights/JavisVerse/JavisDiT-v1.0-jav
 ```
 
 #### 2. Run Target Inference
@@ -129,8 +140,10 @@ For audio comprehension:
 ```bash
 AUDIO_PATH="assets/demos/audio/Creaking_pier.wav"
 PROMPT="Is the sound caused by pressure from/against wood?"
+JAV_VERSION="v1.0"
 
-AUDIO_PATH=${AUDIO_PATH} PROMPT=${PROMPT} bash scripts/demo/demo_audio_visual.sh
+JAV_VERSION=${JAV_VERSION} AUDIO_PATH=${AUDIO_PATH} PROMPT=${PROMPT} \
+bash scripts/demo/demo_audio_visual.sh
 ```
 
 For video comprehension:
@@ -138,8 +151,10 @@ For video comprehension:
 ```bash
 VIDEO_PATH="assets/demos/video/ZS9XR.mp4"
 PROMPT="What happened after the person took the box? A. Ate the medicine. B. Tidied up the blanket. C. Put down the cup/glass/bottle. D. Open the computer."
+JAV_VERSION="v1.0"
 
-VIDEO_PATH=${VIDEO_PATH} PROMPT=${PROMPT} bash scripts/demo/demo_audio_visual.sh
+JAV_VERSION=${JAV_VERSION} VIDEO_PATH=${VIDEO_PATH} PROMPT=${PROMPT} \
+bash scripts/demo/demo_audio_visual.sh
 ```
 
 - **Joint Audio-Video Comprehension**
@@ -151,8 +166,10 @@ Use the following command to evaluate the joint audio-video comprehension capabi
 VIDEO_PATH="assets/demos/audio_video/00002617.mp4"
 PROMPT="How many instruments in the room did not sound from beginning to end? Answer the question using a single word."
 USE_AUDIO_IN_VIDEO=True
+JAV_VERSION="v1.0"
 
-VIDEO_PATH=${VIDEO_PATH} PROMPT=${PROMPT} USE_AUDIO_IN_VIDEO=${USE_AUDIO_IN_VIDEO} bash scripts/demo/demo_audio_visual.sh
+JAV_VERSION=${JAV_VERSION} VIDEO_PATH=${VIDEO_PATH} PROMPT=${PROMPT} USE_AUDIO_IN_VIDEO=${USE_AUDIO_IN_VIDEO} \
+bash scripts/demo/demo_audio_visual.sh
 ```
 
 
@@ -164,8 +181,10 @@ Use the following command to evaluate the sounding video generation capability.
 PROMPT="Build a video, ensuring the content is echoed by complementary scenes: A beautiful waterfall cascades down a steep cliff into a clear pool below. Sunlight filters through the surrounding trees, creating shimmering reflections on the falling water. The scene is calm and natural, with continuous flowing water and gentle mist rising from the base. The sound consists of steady rushing water, soft splashes, and faint ambient forest noise."
 AV_GENERATE=True
 SAVE_PREFIX="./results/avgen/demo"
+JAV_VERSION="v1.0"
 
-AV_GENERATE=${AV_GENERATE} PROMPT=${PROMPT} SAVE_PREFIX=${SAVE_PREFIX} bash scripts/demo/demo_audio_visual.sh
+JAV_VERSION=${JAV_VERSION} AV_GENERATE=${AV_GENERATE} PROMPT=${PROMPT} SAVE_PREFIX=${SAVE_PREFIX} \
+bash scripts/demo/demo_audio_visual.sh
 ```
 
 The generated sample will be saved at `${SAVE_PREFIX}.mp4`, e.g., `./results/avgen/demo.mp4`.
@@ -208,7 +227,9 @@ bash ./scripts/train/train_audio_align.sh
 For audio-video generation pretraining, run the following command, and the trained `avgen_proj.bin` will be saved at `./runs/javisgpt_stage1_mm_pretrain_avgen_align/`:
 
 ```bash
-bash ./scripts/train/train_audio_video_gen_align.sh
+JAV_VERSION="v1.0"
+
+JAV_VERSION=${JAV_VERSION} bash ./scripts/train/train_audio_video_gen_align.sh
 ```
 
 - **Stage-II Audio-Visual Fine-Tuning**
@@ -216,7 +237,9 @@ bash ./scripts/train/train_audio_video_gen_align.sh
 This stage aims to enhance the understanding and generation of sounding videos, which can be integrated into a single task. Run the following command, and the trained `mm_proj_all.bin` with LoRA weights will be saved at `./runs/javisgpt_stage2_av_finetune/`:
 
 ```bash
-bash ./scripts/train/stage2_av_ft.sh
+JAV_VERSION="v1.0"
+
+JAV_VERSION=${JAV_VERSION} bash ./scripts/train/stage2_av_ft.sh
 ```
 
 - **Stage-III Multi-Modal Insturction-Tuning**
@@ -225,7 +248,9 @@ This stage aims to elicit the multimodal instruction-following ability for audio
 Run the following command, and the trained `mm_proj_all.bin` with LoRA weights will be saved at `./runs/javisgpt_stage3_mm_insttune/`:
 
 ```bash
-bash ./scripts/train/stage3_mm_it.sh
+JAV_VERSION="v1.0"
+
+JAV_VERSION=${JAV_VERSION} bash ./scripts/train/stage3_mm_it.sh
 ```
 
 Only the checkpoints trained in this stage are utilized to build the final JavisGPT model.
@@ -261,7 +286,9 @@ hf download --repo-type dataset JavisVerse/JavisBench --local-dir ../../datasets
 Run the following script to automatically collect the responses from audio (`ClothoAQA`, `TUT2017`), video (`ActivityNet`, `Perception`, `MVBench`), and audio-video (`AVQA`, `MusicAVQA`, `AVSD`) datasets:
 
 ```bash
-bash ./scripts/eval/infer_av_und.sh
+JAV_VERSION="v1.0"
+
+JAV_VERSION=${JAV_VERSION} bash ./scripts/eval/infer_av_und.sh
 ```
 
 Model's responses will be saved at `./results/av_und/`.
@@ -271,7 +298,9 @@ Model's responses will be saved at `./results/av_und/`.
 Run the following script to automatically collect the joint audio-video generation results from `JavisBench-mini`:
 
 ```bash
-bash ./scripts/eval/infer_av_gen.sh
+JAV_VERSION="v1.0"
+
+JAV_VERSION=${JAV_VERSION} bash ./scripts/eval/infer_av_gen.sh
 ```
 
 Model's responses will be saved at `./results/av_gen/`.
@@ -358,8 +387,8 @@ The evaluation results will be saved at `${JavisDiT_ROOT}/evaluation_results/Jav
 If you find JavisGPT is useful and use it in your project, please kindly cite:
 ```
 @inproceedings{liu2025javisgpt,
-    title={JavisGPT: A Unified Multi-modal LLM for Sounding-Video Comprehension and Generation},
-    author={Kai Liu and Jungang Li and Yuchong Sun and Shengqiong Wu and jianzhang gao and Daoan Zhang and Wei Zhang and Sheng Jin and Sicheng Yu and Geng Zhan and Jiayi Ji and Fan Zhou and Liang Zheng and Shuicheng YAN and Hao Fei and Tat-Seng Chua},
+    title={Javisgpt: A unified multi-modal llm for sounding-video comprehension and generation},
+    author={Liu, Kai and Li, Jungang and Sun, Yuchong and Wu, Shengqiong and Gao, Jianzhang and Zhang, Daoan and Zhang, Wei and Jin, Sheng and Yu, Sicheng and Zhan, Geng and Ji, Jiayi and Zhou, Fan and Zheng, Liang and YAN, Shuicheng and Fei, Hao and Chua, Tat-Seng},
     booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems},
     year={2025},
 }

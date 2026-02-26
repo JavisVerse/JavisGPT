@@ -8,7 +8,7 @@ export BASE_ARCH="Qwen2_5_VL"
 MODEL_PATH="${WEIGHT_ROOT}/pretrained/mllm/Qwen2.5-VL-7B-Instruct"
 BEATS_PATH="${WEIGHT_ROOT}/pretrained/mllm/BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2.pt"
 
-JAV_VERSION=${JAV_VERSION:-"v0.1"}  # v0.1 or v1.0
+JAV_VERSION=${JAV_VERSION:-"v1.0"}  # v0.1 or v1.0
 if [ "$JAV_VERSION" = "v0.1" ]; then
     export AV_GEN_TOKEN_NUM=377 # JavisDiT
     AVGEN_CFG_PATH="${PROJ_ROOT}/interface/config/javisdit_v0.1.py"

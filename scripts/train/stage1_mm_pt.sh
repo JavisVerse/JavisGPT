@@ -15,7 +15,7 @@ AUDIO_FOLDER="${DATA_ROOT}/train/MM-PreTrain/audio"
 
 DATASET_PATH="${DATA_ROOT}/train/MM-PreTrain/stage1_mm_pt.json"
 
-JAV_VERSION=${JAV_VERSION:-"v0.1"}  # v0.1 or v1.0
+JAV_VERSION=${JAV_VERSION:-"v1.0"}  # v0.1 or v1.0
 if [ "$JAV_VERSION" = "v0.1" ]; then
     export AV_GEN_TOKEN_NUM=377 # JavisDiT
 elif [ "$JAV_VERSION" = "v1.0" ]; then

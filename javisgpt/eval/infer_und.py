@@ -31,6 +31,18 @@ def run_inference(args):
     
     gt_questions = json.load(open(args.question_file, "r"))
     gt_questions = get_chunk(gt_questions, args.num_chunks, args.chunk_idx)
+    if osp.exists(args.output_file):  # auto-resume
+        with open(args.output_file, 'r') as f:
+            content = f.read().splitlines()
+        last_question_id_tmpl = json.loads(content[-1].strip())['question_id']
+        valid_questions, valid_flag = [], False
+        for item in gt_questions:
+            if item['id'] in last_question_id_tmpl:
+                valid_flag = True
+                continue
+            if valid_flag:
+                valid_questions.append(item)
+        gt_questions = valid_questions
 
     if args.dataset in ['Perception', 'AVSD'] and args.batch_size > 1:
         warnings.warn(f'Turn batch size {args.batch_size} back to 1 for multi-turn eval datset {args.dataset}')
@@ -42,7 +54,7 @@ def run_inference(args):
     )
 
     os.makedirs(osp.dirname(args.output_file), exist_ok=True)
-    ans_file = open(args.output_file, "w+")
+    ans_file = open(args.output_file, "a")
 
     for i, batch in enumerate(tqdm(dataloader)):
         batch = {k: v.to(model.device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
